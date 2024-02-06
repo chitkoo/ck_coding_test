@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:ck_coding_test/utils/constants.dart';
 import 'package:ck_coding_test/utils/extension.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -40,19 +43,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _serviceSectionController = AnimationController(
         vsync: this, duration: const Duration(milliseconds: 2000));
 
-    _serviceSectionFadeInOut = Tween<double>(begin: 0.0, end: 1.0).animate(
+    _serviceSectionFadeInOut = Tween<double>(begin: 1.0, end: 0.0).animate(
         CurvedAnimation(
-            parent: _walletSectionController, curve: Curves.linear));
+            parent: _serviceSectionController, curve: Curves.linear));
 
     _walletIconController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 300),
-      upperBound: 0.5,
+      duration: const Duration(milliseconds: 500),
     );
     _serviceIconController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 300),
-      upperBound: 0.5,
+      duration: const Duration(milliseconds: 500),
     );
 
     _scrollController = DraggableScrollableController();
@@ -104,8 +105,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
                                 _serviceSectionController.forward(from: 0.0);
 
-                                // _serviceSectionController.reverse(from: 1.0);
-
                                 if (_scrollController.size != 0.5) {
                                   _scrollController.animateTo(
                                     0.5,
@@ -146,7 +145,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 });
 
                                 _walletSectionController.forward(from: 0.0);
-                                // _serviceSectionController.forward(from: 1.0);
 
                                 _serviceSectionController.reverse(from: 1.0);
 
@@ -168,7 +166,10 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     RotationTransition(
                                       turns: Tween(begin: 0.0, end: 1.0)
                                           .animate(_serviceIconController),
-                                      child: const Icon(Icons.tornado_outlined),
+                                      child: Transform.rotate(
+                                          angle: 270 * pi / 180,
+                                          child: const Icon(
+                                              CupertinoIcons.wrench)),
                                     ),
                                     SizedBox(
                                       height: context.hp(1),
@@ -235,7 +236,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                     );
                                   },
                                 ),
-                                // child: _WalletSection(),
                               ),
                             )
                           : const SliverToBoxAdapter(
@@ -263,8 +263,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             CircleAvatar(
-                                              backgroundColor: Colors.blue,
-                                              child: Icon(CupertinoIcons.star),
+                                              backgroundColor: kSecondaryColor,
+                                              child: Icon(
+                                                CupertinoIcons.star,
+                                                color: Colors.white,
+                                              ),
                                             ),
                                             Text('Service'),
                                           ],
@@ -272,16 +275,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                       );
                                     },
                                   );
-                                  // return const Column(
-                                  //   mainAxisSize: MainAxisSize.min,
-                                  //   children: [
-                                  //     CircleAvatar(
-                                  //       backgroundColor: Colors.blue,
-                                  //       child: Icon(CupertinoIcons.star),
-                                  //     ),
-                                  //     Text('Service'),
-                                  //   ],
-                                  // );
                                 },
                               ),
                             ),
@@ -308,12 +301,11 @@ class _WalletCard extends StatelessWidget {
       padding: EdgeInsets.symmetric(
           horizontal: context.wp(3), vertical: context.wp(2.5)),
       decoration: BoxDecoration(
-        // gradient: const LinearGradient(
-        //   colors: [Color(0xFF8F0612), Color(0xFFBF0D23)],
-        //   begin: Alignment.topLeft,
-        //   end: Alignment.bottomRight,
-        // ),
-        color: Colors.blue,
+        gradient: const LinearGradient(
+          colors: [kPrimaryColor, kSecondaryColor],
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+        ),
         borderRadius: BorderRadius.circular(5),
       ),
       child: Column(
@@ -407,7 +399,7 @@ class _WalletSection extends StatelessWidget {
                 ),
                 child: ListTile(
                   dense: true,
-                  leading: const Icon(Icons.money),
+                  leading: const Icon(Icons.account_balance_outlined),
                   title: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
