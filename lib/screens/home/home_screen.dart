@@ -9,14 +9,42 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   bool isWalletSection = true;
+  late final AnimationController _walletIconController;
+  late final AnimationController _serviceIconController;
+  late final DraggableScrollableController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _walletIconController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+      upperBound: 0.5,
+    );
+    _serviceIconController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+      upperBound: 0.5,
+    );
+    _scrollController = DraggableScrollableController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _walletIconController.dispose();
+    _serviceIconController.dispose();
+    _scrollController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey,
       body: DraggableScrollableSheet(
+        controller: _scrollController,
         initialChildSize: 0.25,
         minChildSize: 0.25,
         maxChildSize: 0.9,
@@ -41,7 +69,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               onTap: () {
                                 setState(() {
                                   isWalletSection = true;
+                                  _walletIconController.forward(from: 0.0);
                                 });
+                                if (_scrollController.size != 0.5) {
+                                  _scrollController.animateTo(
+                                    0.5,
+                                    duration: const Duration(milliseconds: 500),
+                                    curve: Curves.easeInQuad,
+                                  );
+                                }
                               },
                               child: Container(
                                 width: context.wp(20),
@@ -50,8 +86,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    const Icon(
-                                        Icons.account_balance_wallet_outlined),
+                                    RotationTransition(
+                                      turns: Tween(begin: 0.0, end: 1.0)
+                                          .animate(_walletIconController),
+                                      child: const Icon(Icons
+                                          .account_balance_wallet_outlined),
+                                    ),
                                     SizedBox(
                                       height: context.hp(1),
                                     ),
@@ -67,7 +107,15 @@ class _HomeScreenState extends State<HomeScreen> {
                               onTap: () {
                                 setState(() {
                                   isWalletSection = false;
+                                  _serviceIconController.forward(from: 0.0);
                                 });
+                                if (_scrollController.size != 0.5) {
+                                  _scrollController.animateTo(
+                                    0.5,
+                                    duration: const Duration(milliseconds: 500),
+                                    curve: Curves.easeInQuad,
+                                  );
+                                }
                               },
                               child: Container(
                                 width: context.wp(20),
@@ -76,7 +124,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    const Icon(Icons.tornado_outlined),
+                                    RotationTransition(
+                                      turns: Tween(begin: 0.0, end: 1.0)
+                                          .animate(_serviceIconController),
+                                      child: const Icon(Icons.tornado_outlined),
+                                    ),
                                     SizedBox(
                                       height: context.hp(1),
                                     ),
