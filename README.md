@@ -42,5 +42,11 @@ For a better performance, run using this
 *This project is written by only using Flutter framework.
 ## Screenshots
 
-![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+iPhone
+
+<p float="left">
+<img src="assets/screenshots/iphone_1.png" width="180" height="380" />
+<img src="assets/screenshots/iphone_2.png" width="180" height="380" />
+<img src="assets/screenshots/iphone_3.png" width="180" height="380" />
+</p>
 
