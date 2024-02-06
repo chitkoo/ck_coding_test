@@ -11,13 +11,39 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   bool isWalletSection = true;
+
+  ///Animation Controller for [Rotating Icon]
   late final AnimationController _walletIconController;
   late final AnimationController _serviceIconController;
+
+  ///Scroll controller to open [remaining section]
   late final DraggableScrollableController _scrollController;
+
+  ///[FadeInOut] Animation Controller for [Balance Card] & [Linked Account]
+  late final Animation _walletSectionFadeInOut;
+  late final AnimationController _walletSectionController;
+
+  ///[FadeInOut] Animation Controller for [Service section]
+  late final Animation _serviceSectionFadeInOut;
+  late final AnimationController _serviceSectionController;
 
   @override
   void initState() {
     super.initState();
+    _walletSectionController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 2000));
+
+    _walletSectionFadeInOut = Tween<double>(begin: 1.0, end: 0.0).animate(
+        CurvedAnimation(
+            parent: _walletSectionController, curve: Curves.linear));
+
+    _serviceSectionController = AnimationController(
+        vsync: this, duration: const Duration(milliseconds: 2000));
+
+    _serviceSectionFadeInOut = Tween<double>(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(
+            parent: _walletSectionController, curve: Curves.linear));
+
     _walletIconController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 300),
@@ -28,6 +54,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
       duration: const Duration(milliseconds: 300),
       upperBound: 0.5,
     );
+
     _scrollController = DraggableScrollableController();
   }
 
@@ -37,6 +64,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
     _walletIconController.dispose();
     _serviceIconController.dispose();
     _scrollController.dispose();
+    _walletSectionController.dispose();
   }
 
   @override
@@ -71,6 +99,13 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   isWalletSection = true;
                                   _walletIconController.forward(from: 0.0);
                                 });
+
+                                _walletSectionController.reverse(from: 1.0);
+
+                                _serviceSectionController.forward(from: 0.0);
+
+                                // _serviceSectionController.reverse(from: 1.0);
+
                                 if (_scrollController.size != 0.5) {
                                   _scrollController.animateTo(
                                     0.5,
@@ -109,6 +144,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                   isWalletSection = false;
                                   _serviceIconController.forward(from: 0.0);
                                 });
+
+                                _walletSectionController.forward(from: 0.0);
+                                // _serviceSectionController.forward(from: 1.0);
+
+                                _serviceSectionController.reverse(from: 1.0);
+
                                 if (_scrollController.size != 0.5) {
                                   _scrollController.animateTo(
                                     0.5,
@@ -165,8 +206,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           ? SliverPadding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: context.wp(5)),
-                              sliver: const SliverToBoxAdapter(
-                                child: _WalletCard(),
+                              sliver: SliverToBoxAdapter(
+                                child: AnimatedBuilder(
+                                  animation: _walletSectionController,
+                                  builder: (context, child) {
+                                    return Opacity(
+                                      opacity: _walletSectionFadeInOut.value,
+                                      child: const _WalletCard(),
+                                    );
+                                  },
+                                ),
                               ),
                             )
                           : const SliverToBoxAdapter(
@@ -176,8 +225,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           ? SliverPadding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: context.wp(5)),
-                              sliver: const SliverToBoxAdapter(
-                                child: _WalletSection(),
+                              sliver: SliverToBoxAdapter(
+                                child: AnimatedBuilder(
+                                  animation: _walletSectionController,
+                                  builder: (context, child) {
+                                    return Opacity(
+                                      opacity: _walletSectionFadeInOut.value,
+                                      child: const _WalletSection(),
+                                    );
+                                  },
+                                ),
+                                // child: _WalletSection(),
                               ),
                             )
                           : const SliverToBoxAdapter(
@@ -196,16 +254,34 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                                 ),
                                 itemCount: 15,
                                 itemBuilder: (BuildContext context, int index) {
-                                  return const Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      CircleAvatar(
-                                        backgroundColor: Colors.blue,
-                                        child: Icon(CupertinoIcons.star),
-                                      ),
-                                      Text('Service'),
-                                    ],
+                                  return AnimatedBuilder(
+                                    animation: _serviceSectionController,
+                                    builder: (context, child) {
+                                      return Opacity(
+                                        opacity: _serviceSectionFadeInOut.value,
+                                        child: const Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            CircleAvatar(
+                                              backgroundColor: Colors.blue,
+                                              child: Icon(CupertinoIcons.star),
+                                            ),
+                                            Text('Service'),
+                                          ],
+                                        ),
+                                      );
+                                    },
                                   );
+                                  // return const Column(
+                                  //   mainAxisSize: MainAxisSize.min,
+                                  //   children: [
+                                  //     CircleAvatar(
+                                  //       backgroundColor: Colors.blue,
+                                  //       child: Icon(CupertinoIcons.star),
+                                  //     ),
+                                  //     Text('Service'),
+                                  //   ],
+                                  // );
                                 },
                               ),
                             ),
