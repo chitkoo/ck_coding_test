@@ -53,8 +53,8 @@ iPhone
 android
 
 <p float="left">
-<img src="assets/screenshots/android_1.png" width="180" height="380" />
-<img src="assets/screenshots/android_2.png" width="180" height="380" />
-<img src="assets/screenshots/android_3.png" width="180" height="380" />
+<img src="assets/screenshots/android_1.jpeg" width="180" height="380" />
+<img src="assets/screenshots/android_2.jpeg" width="180" height="380" />
+<img src="assets/screenshots/android_3.jpeg" width="180" height="380" />
 </p>
 
