@@ -50,3 +50,11 @@ iPhone
 <img src="assets/screenshots/iphone_3.png" width="180" height="380" />
 </p>
 
+android
+
+<p float="left">
+<img src="assets/screenshots/android_1.png" width="180" height="380" />
+<img src="assets/screenshots/android_2.png" width="180" height="380" />
+<img src="assets/screenshots/android_3.png" width="180" height="380" />
+</p>
+
