@@ -34,6 +34,12 @@ For a better performance, run using this
 
 *Note that running profile mode is not supported for IOS simulator.
 
+## Framework
+
+[Flutter](https://linktodocumentation) (sdk: '>=3.2.6 <4.0.0')
+
+
+*This project is written by only using Flutter framework.
 ## Screenshots
 
 ![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
