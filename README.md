@@ -1,16 +1,46 @@
-# ck_coding_test
 
-A new Flutter project.
+# Flutter Skill Test
 
-## Getting Started
+This is the coding test assigned to Chit Ko
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+## Authors
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- [@chitkoo](https://github.com/chitkoo)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+
+## Running the project
+
+To run this project, open your desired emulator/simulator.
+
+```bash
+  cd your/directory
+  git clone project
+```
+
+```bash
+  cd project/
+  
+  flutter pub get
+
+  flutter run
+```
+
+For a better performance, run using this
+
+```bash
+  flutter run --profile
+```
+
+*Note that running profile mode is not supported for IOS simulator.
+
+## Framework
+
+[Flutter](https://linktodocumentation) (sdk: '>=3.2.6 <4.0.0')
+
+
+*This project is written by only using Flutter framework.
+## Screenshots
+
+![App Screenshot](https://via.placeholder.com/468x300?text=App+Screenshot+Here)
+
